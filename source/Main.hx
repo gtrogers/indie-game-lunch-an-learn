@@ -10,7 +10,7 @@ class Main extends Sprite
   {
     super();
     addChild(new FlxGame(0, 0, PlayState));
-    #if desktop
+    #if (desktop || web)
     FlxG.mouse.useSystemCursor = true;
     #end
   }

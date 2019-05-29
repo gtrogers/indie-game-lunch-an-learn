@@ -44,12 +44,14 @@ class Player extends FlxText
 
   private function mouseMove():Void
   {
+    #if FLX_MOUSE
     if (FlxG.mouse.pressed)
     {
       var mouse = FlxG.mouse.getPosition();
 
       this.moveToward(mouse.x, mouse.y);
     }
+    #end
   }
 
   private function mobileMove():Void
@@ -75,6 +77,8 @@ class Player extends FlxText
   private function moveRandom(delta:Float):Void
   {
     _moveTime += delta;
+
+    //TODO deal with player moving off of screen
 
     if (_moveTime > 3)
     {
