@@ -1,16 +1,21 @@
 package ents;
 
-import flixel.text.FlxText;
+import flixel.FlxSprite;
+import flixel.util.FlxColor;
+import flixel.FlxObject;
 
-class Plant extends FlxText
+
+class Plant extends FlxSprite
 {
   public function new(x:Float, y:Float)
   {
-    super(x, y, 0, "p", 16);
+    super(x, y);
+    makeGraphic(16, 16, FlxColor.GREEN);
   }
 
-  override public function update(delta:Float):Void
+  public function interact(player: FlxObject):Void
   {
-    super.update(delta);
+    trace('ping');
+    super.color = 0xff0000ff;
   }
 }

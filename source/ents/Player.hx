@@ -4,11 +4,11 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
 import flixel.math.FlxRandom;
 import flixel.FlxG;
-import flixel.text.FlxText;
+import flixel.FlxSprite;
 
 import Config;
 
-class Player extends FlxText
+class Player extends FlxSprite
 {
   private var _rand:FlxRandom;
   private var _direction:FlxVector;
@@ -16,7 +16,8 @@ class Player extends FlxText
 
   public function new(x:Float, y:Float)
   {
-    super(x, y, 0, "x", 16);
+    super(x, y);
+    makeGraphic(32, 32, 0xff00ffff);
     _rand = new FlxRandom();
     _direction = new FlxVector(1,1);
     _direction.normalize();

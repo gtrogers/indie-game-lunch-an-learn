@@ -3,23 +3,28 @@ package ents;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.math.FlxRandom;
+import flixel.FlxObject;
 
 import ents.Plant;
 
+// TODO - extend FlxBasic
 class Grid
 {
   private var _plants:Array<Plant> = [];
   private var _random:FlxRandom;
   private var _parentState:FlxState;
+  private var _player:FlxObject;
 
-  public function new(state:FlxState)
+  public function new(state:FlxState, player:FlxObject)
   {
     _random = new FlxRandom();
     _parentState = state;
+    _player = player;
   }
 
   public function update(delta:Float)
   {
+    handleCollisions();
     if (_plants.length < 10)
     {
       var x = FlxG.width * 0.9;
@@ -29,4 +34,16 @@ class Grid
       _parentState.add(plant);
     }
   }
+
+  private function handleCollisions():Void
+  {
+    for (plant in _plants)
+    {
+      trace('overlap:', FlxG.overlap(_player, plant));
+      if (FlxG.overlap(_player, plant))
+      {
+        plant.interact(_player);
+      }
+    }
+  }  
 }

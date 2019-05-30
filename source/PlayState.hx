@@ -25,7 +25,7 @@ class PlayState extends FlxState
 
     if (Config.GOALS)
     {
-      _grid = new Grid(this);
+      _grid = new Grid(this, player);
     }
   }
 
