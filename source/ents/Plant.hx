@@ -5,6 +5,9 @@ import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.text.FlxText;
 
+import Config;
+import AssetPaths;
+
 class Plant extends FlxSprite
 {
   private var _growTime:Float = 0;
@@ -15,7 +18,25 @@ class Plant extends FlxSprite
   public function new(x:Float, y:Float)
   {
     super(x, y);
-    makeGraphic(32, 32, FlxColor.BROWN);
+
+    if (Config.GRAPHICS)
+    {
+      loadGraphic(AssetPaths.flower64_4x1__png, true, 32, 32);
+      // TODO - resize plant graphics to 64 by 64
+      setGraphicSize(64,64);
+      updateHitbox();
+      this.animation.add("dirt", [0]);
+      this.animation.add("new", [1]);
+      this.animation.add("half", [2]);
+      this.animation.add("done", [3]);
+
+      this.animation.play("new");
+    }
+    else
+    {
+      makeGraphic(32, 32, FlxColor.BROWN);
+    }
+
     _label = new FlxText(x, y + 16, 0, "0%", 16);
   }
 
@@ -26,15 +47,41 @@ class Plant extends FlxSprite
 
   public override function update(delta:Float):Void
   {
+    // TODO - refactor animation selection
+    var animName = "dirt";
     if (this.growing())
     {
-      this.color = FlxColor.GREEN;
+      if (Config.GRAPHICS)
+      {
+        animName = "new";
+      }
+      else
+      {
+        this.color = FlxColor.GREEN;
+      }
       _growTime += delta;
     }
 
-    if (_growTime > 5)
+    if (_growTime > 2 && _growTime < 5)
     {
-      this.color = FlxColor.RED;
+      animName = "half";
+    }
+
+    if (_growTime >= 5)
+    {
+      if (Config.GRAPHICS)
+      {
+        animName = "done";
+      }
+      else 
+      {
+        this.color = FlxColor.RED;
+      }
+    }
+
+    if (Config.GRAPHICS)
+    {
+      this.animation.play(animName);
     }
   }
 
