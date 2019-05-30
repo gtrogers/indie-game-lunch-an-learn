@@ -7,6 +7,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 
 import Config;
+import Progression;
+import AssetPaths;
 
 class Player extends FlxSprite
 {
@@ -17,7 +19,16 @@ class Player extends FlxSprite
   public function new(x:Float, y:Float)
   {
     super(x, y);
-    makeGraphic(32, 32, 0xff00ffff);
+    if (Config.GRAPHICS)
+    {
+      loadGraphic(AssetPaths.cloud64_3x1__png, true, 64, 64);
+      this.animation.add("rain", [0,1,2], 2, true);
+      this.animation.play("rain");
+    }
+    else
+    {
+      makeGraphic(64, 64, 0xff00ffff);
+    }
     _rand = new FlxRandom();
     _direction = new FlxVector(1,1);
     _direction.normalize();
@@ -50,7 +61,7 @@ class Player extends FlxSprite
     {
       var mouse = FlxG.mouse.getPosition();
 
-      this.moveToward(mouse.x, mouse.y);
+      this.moveToward(mouse.x, mouse.y, Progression.Get().getPlayerSpeed());
     }
     #end
   }
@@ -62,17 +73,17 @@ class Player extends FlxSprite
     {
       if (touch.pressed)
       {
-        this.moveToward(touch.x, touch.y);
+        this.moveToward(touch.x, touch.y, Progression.Get().getPlayerSpeed());
       }
     }
     #end
   }
 
-  private function moveToward(x:Float, y:Float):Void
+  private function moveToward(x:Float, y:Float, speed:Float):Void
   {
     var distanceNormal = new FlxVector(x, y).subtract(this.x, this.y).normalize();
-    this.x += distanceNormal.x;
-    this.y += distanceNormal.y;
+    this.x += distanceNormal.x * speed;
+    this.y += distanceNormal.y * speed;
   }
 
   private function moveRandom(delta:Float):Void
@@ -85,11 +96,10 @@ class Player extends FlxSprite
     {
       var xPos = _rand.float(0, FlxG.width);
       var yPos = _rand.float(0, FlxG.height);
-      _direction = new FlxVector(xPos, yPos).subtract(this.x, this.y).normalize();
+      _direction = new FlxVector(xPos, yPos);
       _moveTime = 0;
     }
 
-    this.x += _direction.x;
-    this.y += _direction.y;
+    this.moveToward(_direction.x, _direction.y, Progression.Get().getPlayerSpeed());
   }
 }

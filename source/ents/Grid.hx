@@ -24,7 +24,7 @@ class Grid
 
   public function update(delta:Float)
   {
-    handleCollisions();
+    handleCollisions(delta);
     if (_plants.length < 10)
     {
       var x = FlxG.width * 0.9;
@@ -35,14 +35,13 @@ class Grid
     }
   }
 
-  private function handleCollisions():Void
+  private function handleCollisions(delta:Float):Void
   {
     for (plant in _plants)
     {
-      trace('overlap:', FlxG.overlap(_player, plant));
       if (FlxG.overlap(_player, plant))
       {
-        plant.interact(_player);
+        plant.interact(delta);
       }
     }
   }  

@@ -5,6 +5,7 @@
 [ ] Graphics
 [ ] Interaction
 [ ] Progression
+[ ] Goal
 
 ## Nice to have
 
