@@ -2,8 +2,11 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxG;
+import flixel.addons.display.FlxTiledSprite;
 
 import Config;
+import AssetPaths;
+
 import ents.Player;
 import ents.Score;
 import ents.Grid;
@@ -18,6 +21,13 @@ class PlayState extends FlxState
   {
     // Setup goes here...
     super.create();
+
+    if (Config.GRAPHICS)
+    {
+      var backdrop = new FlxTiledSprite(AssetPaths.floor__png, FlxG.width, FlxG.height);
+      add(backdrop);
+    }
+
     var player = new Player(20, 20);
     _score = new Score();
     add(player);
