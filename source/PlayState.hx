@@ -77,6 +77,16 @@ class PlayState extends FlxState
         Progression.Get().clearFlashMessage();
       }
       #end
+
+      #if mobile
+      for (swipe in FlxG.swipes)
+      {
+        if (swipe.distance > 10)
+        {
+          Progression.Get().clearFlashMessage();
+        }
+      }
+      #end
     }
   }
 }

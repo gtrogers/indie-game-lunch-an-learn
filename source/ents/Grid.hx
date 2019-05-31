@@ -8,6 +8,7 @@ import flixel.group.FlxSpriteGroup;
 
 import ents.Plant;
 import PlayState;
+import Progression;
 
 // TODO - extend FlxBasic
 class Grid
@@ -29,8 +30,9 @@ class Grid
   public function update(delta:Float)
   {
     handleCollisions(delta);
+    var cap = Progression.Get().getPlantCap();
     var plantCount = _plants.countLiving();
-    if (plantCount < 10 && (_random.float() > plantCount/10))
+    if (plantCount < cap && (_random.float() > plantCount/cap))
     {
       var x = FlxG.width * 0.9;
       var y = FlxG.height * 0.9;
