@@ -22,6 +22,8 @@ class Player extends FlxSprite
     if (Config.GRAPHICS)
     {
       loadGraphic(AssetPaths.cloud64_3x1__png, true, 64, 64);
+      this.setGraphicSize(256,256);
+      this.updateHitbox();
       this.animation.add("rain", [0,1,2], 2, true);
       this.animation.play("rain");
     }
@@ -81,7 +83,7 @@ class Player extends FlxSprite
 
   private function moveToward(x:Float, y:Float, speed:Float):Void
   {
-    var distanceNormal = new FlxVector(x, y).subtract(this.x, this.y).normalize();
+    var distanceNormal = new FlxVector(x, y).subtract(this.x + 128, this.y + 128).normalize();
     this.x += distanceNormal.x * speed;
     this.y += distanceNormal.y * speed;
   }

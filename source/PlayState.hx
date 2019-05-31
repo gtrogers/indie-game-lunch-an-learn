@@ -2,10 +2,12 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxG;
+import flixel.text.FlxText;
 import flixel.addons.display.FlxTiledSprite;
 
 import Config;
 import AssetPaths;
+import Progression;
 
 import ents.Player;
 import ents.Score;
@@ -30,22 +32,51 @@ class PlayState extends FlxState
 
     var player = new Player(20, 20);
     _score = new Score();
-    add(player);
     add(_score);
 
     if (Config.GOALS)
     {
+      // TODO use sprite group for grid to draw behind player
       _grid = new Grid(this, player);
+    }
+
+    add(player);
+  }
+
+  override public function draw():Void
+  {
+    var flashMessage = Progression.Get().getFlashMessage();
+    if (flashMessage != null)
+    {
+      flashMessage.draw();
+    }
+    else
+    {
+      super.draw();
     }
   }
 
   override public function update(elapsed:Float):Void
   {
-    // Game loop goes here...
-    super.update(elapsed);
-    if (Config.GOALS)
+    var flashMessage = Progression.Get().getFlashMessage();
+    if (flashMessage == null)
     {
-      _grid.update(elapsed);
+
+      super.update(elapsed);
+      if (Config.GOALS)
+      {
+        _grid.update(elapsed);
+      }
+
+    }
+    else
+    {
+      #if (web || desktop)
+      if (FlxG.keys.pressed.SPACE)
+      {
+        Progression.Get().clearFlashMessage();
+      }
+      #end
     }
   }
 }

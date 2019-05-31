@@ -1,18 +1,24 @@
 package ents;
 
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
+
+import Progression;
+import Config;
 
 class Score extends FlxText
 {
   public function new()
   {
-    super(0, 0, 0, "0", 16);
-    this.screenCenter();
-    this.y = 0;
+    super(0, 0, 0, "0", 42);
+    this.color = FlxColor.PURPLE;
   }
 
-  public function increase(n:Float):Void
+  public override function update(delta:Float):Void
   {
-    this.text = "hello";
+    if (Config.PROGRESS)
+    {
+      this.text = (Progression.Get().getScore() + " / " + Progression.Get().getTarget());
+    }
   }
 }

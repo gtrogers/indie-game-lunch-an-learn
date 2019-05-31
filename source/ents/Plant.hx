@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 
 import Config;
 import AssetPaths;
+import Progression;
 
 class Plant extends FlxSprite
 {
@@ -23,7 +24,7 @@ class Plant extends FlxSprite
     {
       loadGraphic(AssetPaths.flower64_4x1__png, true, 32, 32);
       // TODO - resize plant graphics to 64 by 64
-      setGraphicSize(64,64);
+      setGraphicSize(128,128);
       updateHitbox();
       this.animation.add("dirt", [0]);
       this.animation.add("new", [1]);
@@ -37,7 +38,7 @@ class Plant extends FlxSprite
       makeGraphic(32, 32, FlxColor.BROWN);
     }
 
-    _label = new FlxText(x, y + 16, 0, "0%", 16);
+    _label = new FlxText(x, y + 130, 0, "0%", 16);
   }
 
   public function interact(delta:Float):Void
@@ -76,6 +77,15 @@ class Plant extends FlxSprite
       else 
       {
         this.color = FlxColor.RED;
+      }
+    }
+
+    if (_growTime > 7)
+    {
+      this.kill();
+      if (Config.PROGRESS)
+      {
+        Progression.Get().addToScore();
       }
     }
 
